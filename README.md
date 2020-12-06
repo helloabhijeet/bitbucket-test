@@ -8,23 +8,23 @@ python script to test the invalid permissions set across project or repo
 
 ** If Repository level access check is not required, pass "" , Permissons will be checked at Project level
 
-<h3> Examples </h3> <br> 
+<h3> Sample Commands </h3> <br> 
 
-1. To check the project level access use below command:<br>
+1. To check the Project level permissions use below command:<br>
     <b>python3 user-permissions.py TestUser3 proja "" PROJECT_WRITE</b><br> 
     <br>
-    Input Argument details: <br>
-    <b> TestUser3 </b>: bitbucket user name <br>
-    <b> proja </b>: project key of the project <br>
-    <b> "" </b>: repo name is empty because we just need to check project <br>
-    <b> PROJECT_WRITE </b>: expected access level <br>
+    Input Arguments Explained : <br>
+    <b> TestUser3 </b>: Bitbucket User name <br>
+    <b> proja </b>: Project key <br>
+    <b> "" </b>: Repository name is blank as we are checking permissions at Project Level <br>
+    <b> PROJECT_WRITE </b>: Expected access <br>
     <br>
     
-2. To check the repo level access use below command:<br>
+2. To check the Repository level permissions use below command:<br>
     <b>python3 user-permissions.py TestUser3 proja project-a-repo1 PROJECT_WRITE</b><br>
     <br>
-    Input Argument details: <br>
+    Input Arguments Explained: <br>
     <b> TestUser3 </b>: bitbucket user name<br>
-    <b> proja </b>: project key of the project<br>
-    <b> project-a-repo1 </b>: repo name <br>
-    <b> PROJECT_WRITE </b>: expected access level<br>
+    <b> proja </b>: Project key<br>
+    <b> project-a-repo1 </b>: Repository name <br>
+    <b> PROJECT_WRITE </b>: Expected access<br>
