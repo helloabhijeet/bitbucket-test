@@ -6,7 +6,7 @@ python script to test the invalid permissions set across project or repo
 2. To Run the script use below format (please make sure that you have Python3 installed on your machine):
     python user-permissions.py <bitbucket_user> <project_name> <repo_name> <expected_role>. 
 
-** If Repository access check is not required then just pass "", Permissons will be checked at Project level
+** If Repository access check is not required, pass "", Permissons will be checked at Project level
 
 <h3> Examples </h3> <br> 
 
