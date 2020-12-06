@@ -10,7 +10,7 @@ python script to test the invalid permissions set across project or repo
 
 <h3> Sample Commands </h3> <br> 
 
-1. To check the Project level permissions use below command:<br>
+1. To check the Project level permissions:<br>
     <b>python3 user-permissions.py TestUser3 proja "" PROJECT_WRITE</b><br> 
     <br>
     Input Arguments Explained : <br>
@@ -20,7 +20,7 @@ python script to test the invalid permissions set across project or repo
     <b> PROJECT_WRITE </b>: Expected access <br>
     <br>
     
-2. To check the Repository level permissions use below command:<br>
+2. To check the Repository level permissions:<br>
     <b>python3 user-permissions.py TestUser3 proja project-a-repo1 PROJECT_WRITE</b><br>
     <br>
     Input Arguments Explained: <br>
