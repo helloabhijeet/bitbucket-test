@@ -2,6 +2,7 @@ import configparser
 
 import requests
 from requests.auth import HTTPBasicAuth
+import sys
 
 
 def read_from_config(prop_key):
@@ -42,18 +43,18 @@ def check_repo_level_access(bitbucket_user, project_name, repo_name, expected_ro
 
 
 def check_project_level_access(bitbucket_user, project_name, expected_role):
-    project_url = prepare_api_url(project_name, empty_repo, bitbucket_user)
+    project_url = prepare_api_url(project_name, "", bitbucket_user)
     project_permissions_response = execute_rest_call(project_url)
     project_level_access = get_permissions_from_response(project_permissions_response)
     if expected_role != project_level_access:
         print(
             'User "{0}" permission is not set correctly in project "{1}". Expected is "{2}", but configured "{3}"'.format(
-                bitbucket_user_name, bitbucket_project_name, expected_user_project_level_access, project_level_access))
+                bitbucket_user_name, bitbucket_project_name, expected_user_access, project_level_access))
 
 
 def verify_user_permissions(bitbucket_user, project_name, repo_name, expected_role):
     if len(project_name) == 0 or len(bitbucket_user) == 0 or len(expected_role) == 0:
-        print('Script ERROR. To run the script, use format "python Test-Permissions.py <bitbucket_user> <project_name> <repo_name> <expected_role>". bitbucket_user, project_name, expected_role are mandatory, if repo access check not required then just pass "". Please check the inout and try again.')
+        print('Script ERROR. To run the script, use format "python user-permissions.py <bitbucket_user> <project_name> <repo_name> <expected_role>". bitbucket_user, project_name, expected_role are mandatory, if repo access check not required then just pass "". Please check the inout and try again.')
 
     if len(project_name) != 0 and len(repo_name) != 0:
         check_repo_level_access(bitbucket_user, project_name, repo_name, expected_role)
@@ -62,39 +63,15 @@ def verify_user_permissions(bitbucket_user, project_name, repo_name, expected_ro
 
 
 if __name__ == '__main__':
+
+    if sys.argv[1] == "--help":
+        print('Script Usage: user-permissions.py <bitbucket_user> <project_name> <repo_name> <expected_role>. If repo access check is not required then just pass "" ')
+        sys.exit()
+
     # set the input variables
-    bitbucket_project_name = "proja"
-    bitbucket_project_repo_name = "project-a-repo1"
-    bitbucket_user_name = "TestUser3"
-    empty_repo = ""
-    expected_user_project_level_access = "PROJECT_WRITE"
-    expected_user_project_repo_level_access = "REPO_WRITE"
+    bitbucket_project_name = sys.argv[2]
+    bitbucket_project_repo_name = sys.argv[3]
+    bitbucket_user_name = sys.argv[1]
+    expected_user_access = sys.argv[4]
 
-    # # prepare the project and repo level rest URL
-    # project_repo_url = prepare_api_url(bitbucket_project_name, bitbucket_project_repo_name, bitbucket_user_name)
-    # project_url = prepare_api_url(bitbucket_project_name, empty_repo, bitbucket_user_name)
-    #
-    # # execute calls for project and repo permissions
-    # project_permissions_response = execute_rest_call(project_url)
-    # project_repo_permissions_response = execute_rest_call(project_repo_url)
-    #
-    # # parse the response json and extract only permissions info
-    # project_level_access = get_permissions_from_response(project_permissions_response)
-    # project_repo_level_access = get_permissions_from_response(project_repo_permissions_response)
-    #
-    # print(project_level_access)
-    # print(project_repo_level_access)
-    #
-    # # assert and print if doesnt match
-    # if expected_user_project_level_access != project_level_access:
-    #     print(
-    #         'User "{0}" permission is not set correctly in project "{1}". Expected is "{2}", but configured "{3}"'.format(
-    #             bitbucket_user_name, bitbucket_project_name, expected_user_project_level_access, project_level_access))
-    # if expected_user_project_repo_level_access != project_repo_level_access:
-    #     print(
-    #         'User "{0}" permission is not set correctly in project "{1}" repo "{2}". Expected is "{3}", but configured "{4}"'.format(
-    #             bitbucket_user_name, bitbucket_project_name, bitbucket_project_repo_name,
-    #             expected_user_project_level_access, project_level_access))
-
-    verify_user_permissions(bitbucket_user_name, bitbucket_project_name, bitbucket_project_repo_name, expected_user_project_repo_level_access)
-    verify_user_permissions(bitbucket_user_name, bitbucket_project_name, "", expected_user_project_level_access)
+    verify_user_permissions(bitbucket_user_name, bitbucket_project_name, bitbucket_project_repo_name, expected_user_access)
