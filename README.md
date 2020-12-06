@@ -19,6 +19,7 @@ python script to test the invalid permissions set across project or repo
     <b> "" </b>: repo name is empty because we just need to check project <br>
     <b> PROJECT_WRITE </b>: expected access level <br>
     <br>
+    
 2. To check the repo level access use below command:<br>
     <b>python3 user-permissions.py TestUser3 proja project-a-repo1 PROJECT_WRITE</b><br>
     <br>
