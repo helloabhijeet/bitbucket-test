@@ -55,7 +55,8 @@ def check_project_level_access(bitbucket_user, project_name, expected_role):
 def verify_user_permissions(bitbucket_user, project_name, repo_name, expected_role):
     if len(project_name) == 0 or len(bitbucket_user) == 0 or len(expected_role) == 0:
         print('Script ERROR. To run the script, use format "python user-permissions.py <bitbucket_user> <project_name> <repo_name> <expected_role>". bitbucket_user, project_name, expected_role are mandatory, if repository access check not required then just pass "". Please check the inout and try again.')
-
+        sys.exit()
+        
     if len(project_name) != 0 and len(repo_name) != 0:
         check_repo_level_access(bitbucket_user, project_name, repo_name, expected_role)
     else:
