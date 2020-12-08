@@ -1,5 +1,6 @@
 import configparser
 
+
 import requests
 from requests.auth import HTTPBasicAuth
 import sys
@@ -28,8 +29,11 @@ def prepare_api_url(project_name, repo_name, user_name):
 
 
 def get_permissions_from_response(response_json):
-    return response_json["values"][0]["permission"]
-
+    try:
+        return response_json["values"][0]["permission"]
+    except:
+        print('User "{0}" has no permissions on Repository or Project => {1}  {2} '.format(bitbucket_user_name, bitbucket_project_name, bitbucket_project_repo_name))
+        sys.exit()
 
 def check_repo_level_access(bitbucket_user, project_name, repo_name, expected_role):
     project_repo_url = prepare_api_url(project_name, repo_name, bitbucket_user)
@@ -54,9 +58,10 @@ def check_project_level_access(bitbucket_user, project_name, expected_role):
 
 def verify_user_permissions(bitbucket_user, project_name, repo_name, expected_role):
     if len(project_name) == 0 or len(bitbucket_user) == 0 or len(expected_role) == 0:
-        print('Script ERROR. To run the script, use format "python user-permissions.py <bitbucket_user> <project_name> <repo_name> <expected_role>". bitbucket_user, project_name, expected_role are mandatory, if repository access check not required then just pass "". Please check the inout and try again.')
+        print(
+            'Script ERROR. To run the script, use format "python user-permissions.py <bitbucket_user> <project_name> <repo_name> <expected_role>". bitbucket_user, project_name, expected_role are mandatory, if repository access check not required then just pass "". Please check the inout and try again.')
         sys.exit()
-        
+
     if len(project_name) != 0 and len(repo_name) != 0:
         check_repo_level_access(bitbucket_user, project_name, repo_name, expected_role)
     else:
@@ -66,7 +71,8 @@ def verify_user_permissions(bitbucket_user, project_name, repo_name, expected_ro
 if __name__ == '__main__':
 
     if sys.argv[1] == "--help":
-        print('Script Usage: user-permissions.py <bitbucket_user> <project_name> <repo_name> <expected_role>. If Repository access check is not required then just pass "" ')
+        print(
+            'Script Usage: user-permissions.py <bitbucket_user> <project_name> <repo_name> <expected_role>. If Repository access check is not required then just pass "" ')
         sys.exit()
 
     # set the input variables
@@ -75,4 +81,5 @@ if __name__ == '__main__':
     bitbucket_user_name = sys.argv[1]
     expected_user_access = sys.argv[4]
 
-    verify_user_permissions(bitbucket_user_name, bitbucket_project_name, bitbucket_project_repo_name, expected_user_access)
+    verify_user_permissions(bitbucket_user_name, bitbucket_project_name, bitbucket_project_repo_name,
+                            expected_user_access)
